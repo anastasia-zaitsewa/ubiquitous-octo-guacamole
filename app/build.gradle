@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 25
@@ -9,18 +10,26 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 }
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -43,6 +52,12 @@ dependencies {
     // Mockito
     testCompile "org.mockito:mockito-core:2.8.47"
     testCompile "com.nhaarman:mockito-kotlin:1.5.0"
+
+    configurations.all {
+        resolutionStrategy {
+            force 'org.jetbrains.kotlin:kotlin-stdlib:1.1.2-5'
+        }
+    }
 
     // Dagger
     compile 'com.google.dagger:dagger:2.11'
