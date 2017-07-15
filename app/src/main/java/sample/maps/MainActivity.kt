@@ -8,10 +8,16 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import sample.maps.injection.component.MainComponent
+import sample.maps.persistence.LocationProvider
+import javax.inject.Inject
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
+
+    @Inject
+    lateinit var locationProvider : LocationProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
