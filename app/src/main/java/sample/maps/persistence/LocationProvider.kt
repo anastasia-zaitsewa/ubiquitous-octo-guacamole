@@ -2,6 +2,7 @@ package sample.maps.persistence
 
 import android.content.Context
 import android.location.Location
+import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationServices
 import io.reactivex.Observable
 import io.reactivex.processors.BehaviorProcessor
@@ -20,6 +21,7 @@ class LocationProvider @Inject constructor(val context: Context) {
                 location.offer(it)
             }
         }
+
     }
 
     val location: BehaviorProcessor<Location> = BehaviorProcessor.create<Location>()

@@ -6,8 +6,9 @@ import sample.maps.injection.component.MainComponent
 import sample.maps.injection.module.AndroidModule
 
 class MapsApplication : Application() {
-
-    lateinit var mainComponent: MainComponent
+    companion object {
+        lateinit var mainComponent: MainComponent
+    }
 
     override fun onCreate() {
         super.onCreate()

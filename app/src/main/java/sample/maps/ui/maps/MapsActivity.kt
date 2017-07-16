@@ -1,5 +1,6 @@
-package sample.maps
+package sample.maps.ui.maps
 
+import android.location.Location
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.view.Menu
@@ -9,10 +10,15 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import io.reactivex.schedulers.Schedulers
+import sample.maps.MapsApplication
+import sample.maps.R
+import sample.maps.injection.component.DaggerActivityComponent
+import sample.maps.injection.module.ActivityModule
 import sample.maps.persistence.LocationProvider
 import javax.inject.Inject
 
-class MainActivity : FragmentActivity(), OnMapReadyCallback {
+class MapsActivity : FragmentActivity(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
 
@@ -22,7 +28,26 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        initDagger()
+
+        locationProvider.lastKnownLocation().subscribeOn(
+                Schedulers.io()
+        ).subscribe {
+            val latLng = LatLng(it.latitude, it.longitude)
+
+            with(map) {
+
+                addMarker(MarkerOptions()
+                        .position(latLng)
+                        .title("Current Location"))
+
+                moveCamera(
+                        CameraUpdateFactory.newLatLng(latLng)
+                )
+            }
+        }
+
+        setContentView(R.layout.maps_activity)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -31,8 +56,16 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
 
+    private fun initDagger() {
+        DaggerActivityComponent.builder()
+                .activityModule(ActivityModule(this))
+                .mainComponent(MapsApplication.mainComponent)
+                .build()
+                .inject(this)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
+        menuInflater.inflate(R.menu.maps_menu, menu)
         return true
     }
 
@@ -47,19 +80,5 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-
-        val sydney = LatLng(-34.0, 151.0)
-
-        with(map) {
-
-            // Add a marker in Sydney and move the camera
-            addMarker(MarkerOptions()
-                    .position(sydney)
-                    .title("Marker in Sydney"))
-
-            moveCamera(
-                    CameraUpdateFactory.newLatLng(sydney)
-            )
-        }
     }
 }
