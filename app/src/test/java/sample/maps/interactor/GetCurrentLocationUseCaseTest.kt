@@ -1,6 +1,7 @@
 package sample.maps.interactor
 
 import android.Manifest
+import android.location.Location
 import com.nhaarman.mockito_kotlin.given
 import com.nhaarman.mockito_kotlin.verifyZeroInteractions
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -38,4 +39,21 @@ class GetCurrentLocationUseCaseTest {
         observer.assertComplete()
     }
 
+    @Test
+    fun get_permissionGranted() {
+        // Given
+        given(rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION))
+                .willReturn(just(true))
+
+        val expected = Location("test_location")
+        given(locationProvider.lastKnownLocation())
+                .willReturn(just(expected))
+
+        // When
+        val observer = useCase.get().test()
+
+        // Then
+        observer.assertValue(expected)
+        observer.assertComplete()
+    }
 }

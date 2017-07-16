@@ -1,11 +1,61 @@
 package sample.maps.ui.maps
 
-import android.location.LocationProvider
+import android.location.Location
+import com.google.android.gms.maps.model.LatLng
+import io.reactivex.Scheduler
+import io.reactivex.disposables.CompositeDisposable
+import sample.maps.injection.annotation.BackgroundTaskScheduler
+import sample.maps.injection.annotation.UiScheduler
+import sample.maps.interactor.GetCurrentLocationUseCase
+import sample.maps.interactor.SaveLocationToRepositoryUseCase
+import sample.maps.ui.maps.MapsView.State
 import javax.inject.Inject
 
 /**
- * Created by biovamp on 15/07/2017.
+ * Presenter for [MapsView]
  */
-class MapsPresenter @Inject constructor(locationProvider: LocationProvider) {
-//    fun resume()
+open class MapsPresenter @Inject constructor(
+        private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
+        private val saveLocationUseCase: SaveLocationToRepositoryUseCase,
+        @BackgroundTaskScheduler private val backgroundScheduler: Scheduler,
+        @UiScheduler private val uiScheduler: Scheduler
+) : MapsView.Listener {
+
+    private var view : MapsView? = null
+    private val compositeSubscription = CompositeDisposable()
+
+    /**
+     * Called when presenter should resume operations.
+     *
+     * @param view which will be used to display data.
+     */
+    open fun resume(view: MapsView) {
+        view.setListener(this)
+        this.view = view
+        subscribeForState(view)
+    }
+
+    override fun addLocationClicked(latLong: LatLng) {
+        saveLocationUseCase.save(latLong)
+                .subscribeOn(backgroundScheduler)
+                .subscribe()
+    }
+
+    override fun locationListClicked() {
+        view?.navigateLocationList()
+    }
+
+    private fun subscribeForState(view: MapsView) {
+        compositeSubscription.add(
+           getCurrentLocationUseCase.get()
+                   .map { buildState(it) }
+                   .subscribeOn(backgroundScheduler)
+                   .observeOn(uiScheduler)
+                   .subscribe{view.updateState(it)}
+        )
+    }
+
+    private fun  buildState(location: Location): State {
+        return State(LatLng(location.latitude, location.longitude))
+    }
 }
