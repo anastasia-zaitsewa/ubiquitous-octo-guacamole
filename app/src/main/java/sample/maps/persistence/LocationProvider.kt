@@ -11,7 +11,7 @@ import javax.inject.Inject
 /**
  * Provides last know location for current user.
  */
-class LocationProvider @Inject constructor(val context: Context) {
+open class LocationProvider @Inject constructor(context: Context) {
 
     private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
@@ -24,9 +24,9 @@ class LocationProvider @Inject constructor(val context: Context) {
 
     }
 
-    val location: BehaviorProcessor<Location> = BehaviorProcessor.create<Location>()
+    private val location: BehaviorProcessor<Location> = BehaviorProcessor.create<Location>()
 
-    fun lastKnownLocation(): Observable<Location> {
+    open fun lastKnownLocation(): Observable<Location> {
         return location.toObservable()
     }
 }
