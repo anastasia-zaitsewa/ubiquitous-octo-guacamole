@@ -5,9 +5,12 @@ import io.reactivex.Completable
 import javax.inject.Inject
 
 /**
- * Created by biovamp on 16/07/2017.
+ * Saves given location to repository.
  */
 open class SaveLocationToRepositoryUseCase @Inject constructor(){
+    /**
+     * @param latLong - location to save
+     */
     open fun save(latLong: LatLng): Completable {
         return Completable.complete()
     }
