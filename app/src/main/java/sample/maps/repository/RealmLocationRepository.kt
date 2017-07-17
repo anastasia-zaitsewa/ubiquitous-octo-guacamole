@@ -20,7 +20,7 @@ class RealmLocationRepository @Inject constructor(
     }
 
     override fun add(location: Location) {
-        if(isLocationNew(location)) {
+        if (isLocationNew(location)) {
             realm.insert(LocationRealm(location.latitude, location.longitude))
         }
     }

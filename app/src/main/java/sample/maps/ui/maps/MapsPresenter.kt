@@ -1,6 +1,5 @@
 package sample.maps.ui.maps
 
-import io.reactivex.CompletableObserver
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import sample.maps.injection.annotation.BackgroundTaskScheduler
