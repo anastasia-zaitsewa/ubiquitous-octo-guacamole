@@ -1,9 +1,9 @@
 package sample.maps.interactor
 
 import android.Manifest
-import android.location.Location
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
+import sample.maps.model.Location
 import sample.maps.persistence.LocationProvider
 import javax.inject.Inject
 
@@ -20,5 +20,6 @@ open class GetCurrentLocationUseCase @Inject constructor(
                 .request(Manifest.permission.ACCESS_FINE_LOCATION)
                 .filter { it }
                 .switchMap { locationProvider.lastKnownLocation() }
+                .map { Location(it.latitude, it.longitude) }
     }
 }

@@ -25,7 +25,7 @@ class SaveLocationToRepositoryUseCaseTest {
         val expected = Location(10.0, 10.0)
 
         // When
-        val observer = useCase.save(LatLng(10.0, 10.0)).test()
+        val observer = useCase.save(expected).test()
 
         // Then
         verify(locationRepository).add(expected)

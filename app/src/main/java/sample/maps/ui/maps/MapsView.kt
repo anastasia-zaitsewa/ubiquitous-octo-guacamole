@@ -1,6 +1,6 @@
 package sample.maps.ui.maps
 
-import com.google.android.gms.maps.model.LatLng
+import sample.maps.model.Location
 
 /**
  * Shows maps with current location
@@ -31,7 +31,7 @@ interface MapsView {
         /**
          * User wants to add current location.
          */
-        fun addLocationClicked(latLong: LatLng)
+        fun addLocationClicked(location: Location)
 
         /**
          * Navigate to list with saved locations.
@@ -39,5 +39,5 @@ interface MapsView {
         fun locationListClicked()
     }
 
-    data class State(val latLong: LatLng)
+    data class State(val location: Location)
 }

@@ -1,13 +1,12 @@
 package sample.maps.ui.maps
 
-import android.location.Location
-import com.google.android.gms.maps.model.LatLng
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import sample.maps.injection.annotation.BackgroundTaskScheduler
 import sample.maps.injection.annotation.UiScheduler
 import sample.maps.interactor.GetCurrentLocationUseCase
 import sample.maps.interactor.SaveLocationToRepositoryUseCase
+import sample.maps.model.Location
 import sample.maps.ui.maps.MapsView.State
 import javax.inject.Inject
 
@@ -21,7 +20,7 @@ open class MapsPresenter @Inject constructor(
         @UiScheduler private val uiScheduler: Scheduler
 ) : MapsView.Listener {
 
-    private var view : MapsView? = null
+    private var view: MapsView? = null
     private val compositeSubscription = CompositeDisposable()
 
     /**
@@ -35,8 +34,8 @@ open class MapsPresenter @Inject constructor(
         subscribeForState(view)
     }
 
-    override fun addLocationClicked(latLong: LatLng) {
-        saveLocationUseCase.save(latLong)
+    override fun addLocationClicked(location: Location) {
+        saveLocationUseCase.save(location)
                 .subscribeOn(backgroundScheduler)
                 .subscribe()
     }
@@ -47,15 +46,15 @@ open class MapsPresenter @Inject constructor(
 
     private fun subscribeForState(view: MapsView) {
         compositeSubscription.add(
-           getCurrentLocationUseCase.get()
-                   .map { buildState(it) }
-                   .subscribeOn(backgroundScheduler)
-                   .observeOn(uiScheduler)
-                   .subscribe{view.updateState(it)}
+                getCurrentLocationUseCase.get()
+                        .map { buildState(it) }
+                        .subscribeOn(backgroundScheduler)
+                        .observeOn(uiScheduler)
+                        .subscribe { view.updateState(it) }
         )
     }
 
-    private fun  buildState(location: Location): State {
-        return State(LatLng(location.latitude, location.longitude))
+    private fun buildState(location: Location): State {
+        return State(location)
     }
 }

@@ -1,8 +1,6 @@
 package sample.maps.ui.maps
 
-import android.location.Location
 import com.google.android.gms.maps.model.LatLng
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.given
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Completable
@@ -15,6 +13,7 @@ import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import sample.maps.interactor.GetCurrentLocationUseCase
 import sample.maps.interactor.SaveLocationToRepositoryUseCase
+import sample.maps.model.Location
 
 @RunWith(MockitoJUnitRunner::class)
 class MapsPresenterTest {
@@ -27,8 +26,6 @@ class MapsPresenterTest {
     lateinit var saveLocationToRepositoryUseCase: SaveLocationToRepositoryUseCase
     @Mock
     lateinit var view: MapsView
-    @Mock
-    lateinit var location: Location
 
     lateinit var presenter: MapsPresenter
 
@@ -42,13 +39,10 @@ class MapsPresenterTest {
                 Schedulers.trampoline()
         )
 
-        given(location.longitude)
-                .willReturn(dummyLatLang)
-        given(location.latitude)
-                .willReturn(dummyLatLang)
+        val location = Location(dummyLatLang, dummyLatLang)
         given(getCurrentLocationUseCase.get())
                 .willReturn(just(location))
-        given(saveLocationToRepositoryUseCase.save(LatLng(dummyLatLang, dummyLatLang)))
+        given(saveLocationToRepositoryUseCase.save(location))
                 .willReturn(Completable.complete())
     }
 
@@ -83,7 +77,7 @@ class MapsPresenterTest {
             addLocationClicked(latLong)
         }
 
-        verify(saveLocationToRepositoryUseCase).save(latLong)
+        verify(saveLocationToRepositoryUseCase).save(Location(dummyLatLang, dummyLatLang))
     }
 
     @Test

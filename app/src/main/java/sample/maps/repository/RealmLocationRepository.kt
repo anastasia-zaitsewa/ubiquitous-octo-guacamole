@@ -3,6 +3,7 @@ package sample.maps.repository
 import io.reactivex.Observable
 import io.realm.Realm
 import sample.maps.model.Location
+import sample.maps.model.realm.LocationRealm
 import javax.inject.Inject
 
 /**
@@ -13,17 +14,17 @@ class RealmLocationRepository @Inject constructor(
 ) : LocationRepository {
 
     override fun getAll(): Observable<Location> {
-        return Observable.create<Location> { realm.where(Location::class.java).findAll() }
+        return Observable.create<Location> { realm.where(LocationRealm::class.java).findAll() }
     }
 
     override fun add(location: Location) {
         if(isLocationNew(location)) {
-            realm.insert(location)
+            realm.insert(LocationRealm(location.latitude, location.longitude))
         }
     }
 
     private fun isLocationNew(location: Location): Boolean {
-        return realm.where(Location::class.java)
+        return realm.where(LocationRealm::class.java)
                 .equalTo("latitude", location.latitude)
                 .equalTo("longitude", location.longitude)
                 .findAll().size == 0

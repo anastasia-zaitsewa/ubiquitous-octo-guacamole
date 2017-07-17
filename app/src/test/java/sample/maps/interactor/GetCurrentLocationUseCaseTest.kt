@@ -17,6 +17,10 @@ import sample.maps.persistence.LocationProvider
 @RunWith(MockitoJUnitRunner::class)
 class GetCurrentLocationUseCaseTest {
 
+    private val dummyLatLang = 10.0
+
+    @Mock
+    lateinit var location: Location
     @Mock
     lateinit var locationProvider: LocationProvider
     @Mock
@@ -42,18 +46,22 @@ class GetCurrentLocationUseCaseTest {
     @Test
     fun get_permissionGranted() {
         // Given
+        given(location.longitude)
+                .willReturn(dummyLatLang)
+        given(location.latitude)
+                .willReturn(dummyLatLang)
         given(rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION))
                 .willReturn(just(true))
-
-        val expected = Location("test_location")
         given(locationProvider.lastKnownLocation())
-                .willReturn(just(expected))
+                .willReturn(just(location))
 
         // When
         val observer = useCase.get().test()
 
         // Then
-        observer.assertValue(expected)
+        observer.assertValue(
+                sample.maps.model.Location(10.0, 10.0)
+        )
         observer.assertComplete()
     }
 }
