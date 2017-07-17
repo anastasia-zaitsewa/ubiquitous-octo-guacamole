@@ -34,6 +34,11 @@ open class MapsPresenter @Inject constructor(
         subscribeForState(view)
     }
 
+    open fun pause() {
+        compositeSubscription.clear()
+        view = null
+    }
+
     override fun addLocationClicked(location: Location) {
         saveLocationUseCase.save(location)
                 .subscribeOn(backgroundScheduler)

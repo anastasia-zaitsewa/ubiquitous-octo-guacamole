@@ -13,8 +13,10 @@ class RealmLocationRepository @Inject constructor(
         private val realm: Realm
 ) : LocationRepository {
 
-    override fun getAll(): Observable<Location> {
-        return Observable.create<Location> { realm.where(LocationRealm::class.java).findAll() }
+    override fun getAll(): Observable<List<Location>> {
+        return Observable.create<List<Location>> {
+            realm.where(LocationRealm::class.java).findAll()
+        }
     }
 
     override fun add(location: Location) {

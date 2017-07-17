@@ -10,7 +10,7 @@ interface LocationRepository {
     /**
      * Retrieves all stored locations
      */
-    fun getAll(): Observable<Location>
+    fun getAll(): Observable<List<Location>>
 
     /**
      * Saves given location to DB
