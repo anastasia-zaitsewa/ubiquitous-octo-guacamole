@@ -23,18 +23,14 @@ open class MapsPresenter @Inject constructor(
     private var view: MapsView? = null
     private val compositeSubscription = CompositeDisposable()
 
-    /**
-     * Called when presenter should resume operations.
-     *
-     * @param view which will be used to display data.
-     */
+
     open fun resume(view: MapsView) {
         view.setListener(this)
         this.view = view
         subscribeForState(view)
     }
 
-    open fun pause() {
+    fun pause() {
         compositeSubscription.clear()
         view = null
     }
