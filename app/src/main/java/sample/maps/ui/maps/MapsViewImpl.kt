@@ -1,7 +1,5 @@
 package sample.maps.ui.maps
 
-import com.google.android.gms.maps.GoogleMap
-
 /**
  * Implementation of [MapsView]
  */

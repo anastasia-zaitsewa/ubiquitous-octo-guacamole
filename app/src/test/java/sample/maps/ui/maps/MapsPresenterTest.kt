@@ -1,6 +1,5 @@
 package sample.maps.ui.maps
 
-import com.google.android.gms.maps.model.LatLng
 import com.nhaarman.mockito_kotlin.given
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Completable
@@ -53,7 +52,7 @@ class MapsPresenterTest {
 
         // Then
         verify(view).updateState(MapsView.State(
-                LatLng(dummyLatLang, dummyLatLang)
+                Location(dummyLatLang, dummyLatLang)
         ))
     }
 
@@ -70,14 +69,16 @@ class MapsPresenterTest {
 
     @Test
     fun addLocationClicked() {
+        // Given
+        val location = Location(dummyLatLang, dummyLatLang)
+
         // When
-        val latLong = LatLng(dummyLatLang, dummyLatLang)
         with(presenter) {
             resume(view)
-            addLocationClicked(latLong)
+            addLocationClicked(location)
         }
 
-        verify(saveLocationToRepositoryUseCase).save(Location(dummyLatLang, dummyLatLang))
+        verify(saveLocationToRepositoryUseCase).save(location)
     }
 
     @Test
