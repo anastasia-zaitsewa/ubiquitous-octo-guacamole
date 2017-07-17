@@ -31,7 +31,7 @@ interface MapsView {
         /**
          * User wants to add current location.
          */
-        fun addLocationClicked(location: Location)
+        fun addLocationClicked()
 
         /**
          * Navigate to list with saved locations.

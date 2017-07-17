@@ -17,7 +17,9 @@ import sample.maps.model.Location
 @RunWith(MockitoJUnitRunner::class)
 class MapsPresenterTest {
 
-    private val dummyLatLang = 10.0
+    val dummyLatLang = 10.0
+    val location = Location(dummyLatLang, dummyLatLang)
+
 
     @Mock
     lateinit var getCurrentLocationUseCase: GetCurrentLocationUseCase
@@ -38,7 +40,6 @@ class MapsPresenterTest {
                 Schedulers.trampoline()
         )
 
-        val location = Location(dummyLatLang, dummyLatLang)
         given(getCurrentLocationUseCase.get())
                 .willReturn(just(location))
         given(saveLocationToRepositoryUseCase.save(location))
@@ -69,15 +70,13 @@ class MapsPresenterTest {
 
     @Test
     fun addLocationClicked() {
-        // Given
-        val location = Location(dummyLatLang, dummyLatLang)
-
         // When
         with(presenter) {
             resume(view)
-            addLocationClicked(location)
+            addLocationClicked()
         }
 
+        // Then
         verify(saveLocationToRepositoryUseCase).save(location)
     }
 

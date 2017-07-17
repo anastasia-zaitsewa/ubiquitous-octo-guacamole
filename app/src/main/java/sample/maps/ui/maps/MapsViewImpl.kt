@@ -8,13 +8,10 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.BiFunction
 import io.reactivex.processors.BehaviorProcessor
+import io.reactivex.rxkotlin.Flowables
 import sample.maps.R
-import sample.maps.model.Location
 
 /**
  * Implementation of [MapsView]
@@ -23,9 +20,8 @@ class MapsViewImpl(context: Context) : MapsView, FrameLayout(context) {
 
     private var listener: MapsView.Listener? = null
 
-    private val compositeSubscription = CompositeDisposable()
-    private val googleMap: BehaviorProcessor<GoogleMap> = BehaviorProcessor.create()
-    private val state: BehaviorProcessor<MapsView.State> = BehaviorProcessor.create()
+    private val googleMap = BehaviorProcessor.create<GoogleMap>()
+    private val state = BehaviorProcessor.create<MapsView.State>()
 
     init {
         LayoutInflater
@@ -40,37 +36,33 @@ class MapsViewImpl(context: Context) : MapsView, FrameLayout(context) {
 
         subscribeForStateUpdate()
 
-        // TODO: Fix me
-        findViewById(R.id.add).setOnClickListener { listener?.addLocationClicked(Location(0.0, 0.0)) }
+        findViewById(R.id.add).setOnClickListener { listener?.addLocationClicked() }
     }
 
     private fun subscribeForStateUpdate() {
-        // TODO: fix me
-//        Flowable.combineLatest(
-//                googleMap,
-//                state,
-//                BiFunction { map: GoogleMap?, location: Location ->
-//                    {
-//                        updateView(map, location)
-//                    }
-//                }
-//        )
+        Flowables.combineLatest(
+                googleMap,
+                state,
+                { map, state -> map to state }
+        ).subscribe { updateView(it) }
     }
 
-    private fun updateView(map: GoogleMap?, location: Location): Unit? {
-        return map?.let {
-            it.addMarker(MarkerOptions()
-                    .position(LatLng(location.latitude, location.longitude))
-                    .title("Current Location"))
+    private fun updateView(pair: Pair<GoogleMap, MapsView.State>) {
+        val map = pair.first
+        val location = pair.second.location
 
-            it.moveCamera(
-                    CameraUpdateFactory.newLatLng(LatLng(
-                            location.latitude,
-                            location.longitude
-                    ))
-            )
-        }
+        map.addMarker(MarkerOptions()
+                .position(LatLng(location.latitude, location.longitude))
+                .title("Current Location"))
+
+        map.moveCamera(
+                CameraUpdateFactory.newLatLng(LatLng(
+                        location.latitude,
+                        location.longitude
+                ))
+        )
     }
+
 
     override fun updateState(newState: MapsView.State) {
         state.offer(newState)

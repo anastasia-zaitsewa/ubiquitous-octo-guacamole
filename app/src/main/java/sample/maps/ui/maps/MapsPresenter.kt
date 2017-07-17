@@ -1,5 +1,6 @@
 package sample.maps.ui.maps
 
+import io.reactivex.CompletableObserver
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import sample.maps.injection.annotation.BackgroundTaskScheduler
@@ -35,8 +36,10 @@ open class MapsPresenter @Inject constructor(
         view = null
     }
 
-    override fun addLocationClicked(location: Location) {
-        saveLocationUseCase.save(location)
+    override fun addLocationClicked() {
+        getCurrentLocationUseCase.get()
+                .take(1)
+                .flatMapCompletable { currentLocation -> saveLocationUseCase.save(currentLocation) }
                 .subscribeOn(backgroundScheduler)
                 .subscribe()
     }
