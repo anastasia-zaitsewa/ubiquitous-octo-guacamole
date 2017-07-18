@@ -12,6 +12,7 @@ import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import sample.maps.interactor.GetAllLocationsFromRepositoryUseCase
 import sample.maps.interactor.GetCurrentLocationUseCase
+import sample.maps.interactor.GetCurrentLocationUseCase.Result.*
 import sample.maps.interactor.SaveLocationToRepositoryUseCase
 import sample.maps.model.Location
 
@@ -45,7 +46,7 @@ class MapsPresenterTest {
         )
 
         given(getCurrentLocationUseCase.get())
-                .willReturn(just(location))
+                .willReturn(just(Success(location)))
         given(saveLocationToRepositoryUseCase.save(location))
                 .willReturn(Completable.complete())
         given(getAllLocationsUseCase.get())

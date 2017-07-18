@@ -40,9 +40,9 @@ open class MapsPresenter @Inject constructor(
     override fun addLocationClicked() {
         getCurrentLocationUseCase.get()
                 .take(1)
-                .filter { it != null }
-                .cast(Location::class.java)
-                .flatMapCompletable { currentLocation -> saveLocationUseCase.save(currentLocation) }
+                .filter { it is GetCurrentLocationUseCase.Result.Success }
+                .cast(GetCurrentLocationUseCase.Result.Success::class.java)
+                .flatMapCompletable { (location) -> saveLocationUseCase.save(location) }
                 .subscribeOn(backgroundScheduler)
                 .subscribe()
     }

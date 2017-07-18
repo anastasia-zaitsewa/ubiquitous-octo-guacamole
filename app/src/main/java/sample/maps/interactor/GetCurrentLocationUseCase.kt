@@ -4,6 +4,7 @@ import android.Manifest
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
 import io.reactivex.Observable.just
+import sample.maps.interactor.GetCurrentLocationUseCase.Result.*
 import sample.maps.model.Location
 import sample.maps.persistence.LocationProvider
 import javax.inject.Inject
@@ -16,18 +17,27 @@ open class GetCurrentLocationUseCase @Inject constructor(
         private val rxPermissions: RxPermissions
 ) {
 
-    open fun get(): Observable<Location?> {
+    open fun get(): Observable<Result> {
         if (rxPermissions.isGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
             return locationProvider.lastKnownLocation()
                     .map {
                         if (it != null) {
-                            return@map Location(it.latitude, it.longitude)
+                            Success(Location(it.latitude, it.longitude))
                         } else {
-                            return@map null
+                            Failure
                         }
                     }
         } else {
-            return just(null)
+            return just(Failure)
         }
     }
+
+    sealed class Result {
+
+        data class Success(val location: Location) : Result()
+
+        object Failure : Result()
+
+    }
+
 }

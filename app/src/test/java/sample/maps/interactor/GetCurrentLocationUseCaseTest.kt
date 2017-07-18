@@ -11,6 +11,7 @@ import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
+import sample.maps.interactor.GetCurrentLocationUseCase.Result.*
 import sample.maps.persistence.LocationProvider
 
 
@@ -31,15 +32,15 @@ class GetCurrentLocationUseCaseTest {
     @Test
     fun get_permissionNotGranted() {
         // Given
-        given(rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION))
-                .willReturn(just(false))
+        given(rxPermissions.isGranted(Manifest.permission.ACCESS_FINE_LOCATION))
+                .willReturn(false)
 
         // When
         val observer = useCase.get().test()
 
         // Then
         verifyZeroInteractions(locationProvider)
-        observer.assertNoValues()
+        observer.assertValue(Failure)
         observer.assertComplete()
     }
 
@@ -50,8 +51,8 @@ class GetCurrentLocationUseCaseTest {
                 .willReturn(dummyLatLang)
         given(location.latitude)
                 .willReturn(dummyLatLang)
-        given(rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION))
-                .willReturn(just(true))
+        given(rxPermissions.isGranted(Manifest.permission.ACCESS_FINE_LOCATION))
+                .willReturn(true)
         given(locationProvider.lastKnownLocation())
                 .willReturn(just(location))
 
@@ -60,7 +61,7 @@ class GetCurrentLocationUseCaseTest {
 
         // Then
         observer.assertValue(
-                sample.maps.model.Location(10.0, 10.0)
+                Success(sample.maps.model.Location(10.0, 10.0))
         )
         observer.assertComplete()
     }
