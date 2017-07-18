@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.rxkotlin.Flowables
 import sample.maps.R
@@ -47,18 +49,13 @@ class MapsViewImpl(context: Context, attributeSet: AttributeSet)
 
     private fun updateView(pair: Pair<GoogleMap, MapsView.State>) {
         val map = pair.first
-//        val location = pair.second.location ?: return
+        pair.second.locationList
+                .map { (latitude, longitude) ->
+                    map.addMarker(MarkerOptions()
+                            .position(LatLng(latitude, longitude))
+                            .title("Saved Location"))
+                }
 
-//        map.addMarker(MarkerOptions()
-//                .position(LatLng(location.latitude, location.longitude))
-//                .title("Current Location"))
-//
-//        map.moveCamera(
-//                CameraUpdateFactory.newLatLng(LatLng(
-//                        location.latitude,
-//                        location.longitude
-//                ))
-//        )
     }
 
     /**

@@ -1,6 +1,8 @@
 package sample.maps.repository
 
 import io.reactivex.Observable
+import io.reactivex.processors.BehaviorProcessor
+import sample.maps.event.Signal
 import sample.maps.model.Location
 
 /**
@@ -8,17 +10,17 @@ import sample.maps.model.Location
  */
 class InMemoryLocationRepository : LocationRepository {
 
-    private val storedLocations = emptyList<Location>().toMutableList()
+    private val storedLocations = arrayListOf<Location>()
+    private val updates = BehaviorProcessor.create<Signal>()
 
     override fun getAll(): Observable<List<Location>> {
-        return Observable.create<List<Location>> {
-            storedLocations
-        }
+        return updates.toObservable().map { _ -> storedLocations}
     }
 
     override fun add(location: Location) {
         if (isLocationNew(location)) {
             storedLocations.add(location)
+            updates.offer(Signal)
         }
     }
 
