@@ -1,9 +1,11 @@
 package sample.maps.ui.maps
 
+import android.Manifest
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.tbruyelle.rxpermissions2.RxPermissions
 import sample.maps.MapsApplication
 import sample.maps.R
 import sample.maps.injection.component.DaggerActivityComponent
@@ -11,6 +13,9 @@ import sample.maps.injection.module.ActivityModule
 import javax.inject.Inject
 
 class MapsActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var rxPermissions: RxPermissions
 
     @Inject
     lateinit var mapsPresenter: MapsPresenter
@@ -23,12 +28,18 @@ class MapsActivity : AppCompatActivity() {
 
         setContentView(R.layout.maps_activity)
 
-        initComponents()
+        initComponents(savedInstanceState)
+
+        rxPermissions.request(
+                Manifest.permission.ACCESS_FINE_LOCATION
+        ).subscribe()
     }
 
-    private fun initComponents() {
-        mapsView = findViewById(R.id.map) as MapsViewImpl
+    private fun initComponents(savedInstanceState: Bundle?) {
+        mapsView = findViewById(R.id.map_view) as MapsViewImpl
+        mapsView.onCreate(savedInstanceState)
         mapsView.setListener(mapsPresenter)
+
     }
 
     private fun initDagger() {
@@ -45,7 +56,7 @@ class MapsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        when (item?.itemId) {
             R.id.list -> mapsPresenter.locationListClicked()
         }
         return super.onOptionsItemSelected(item)
@@ -53,13 +64,37 @@ class MapsActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
         mapsPresenter.resume(mapsView)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapsView.onResume()
     }
 
     override fun onStop() {
         super.onStop()
-
         mapsPresenter.pause()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapsView.onPause()
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapsView.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapsView.onLowMemory()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        mapsView.onSaveInstanceState(outState)
     }
 }

@@ -1,5 +1,6 @@
 package sample.maps.injection.module
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import io.realm.Realm
@@ -13,13 +14,14 @@ import javax.inject.Singleton
 @Module class MainModule {
     @Provides
     @Singleton
-    fun providesRealm() : Realm {
+    fun providesRealm(context: Context): Realm {
+        Realm.init(context)
         return Realm.getDefaultInstance()
     }
 
     @Provides
     @Singleton
-    fun provideslocationRepository(realm: Realm) : LocationRepository {
+    fun providesLocationRepository(realm: Realm): LocationRepository {
         return RealmLocationRepository(realm)
     }
 }

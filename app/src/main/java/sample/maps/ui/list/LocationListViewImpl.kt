@@ -2,6 +2,7 @@ package sample.maps.ui.list
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,8 @@ import sample.maps.R
 /**
  * Implementation of [LocationListView]
  */
-class LocationListViewImpl(context: Context) : LocationListView, FrameLayout(context) {
+class LocationListViewImpl(context: Context, attributeSet: AttributeSet)
+    : LocationListView, FrameLayout(context, attributeSet) {
 
     private val itemsAdapter = LocationsAdapter(context)
 

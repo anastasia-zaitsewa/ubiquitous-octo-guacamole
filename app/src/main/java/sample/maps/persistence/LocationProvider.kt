@@ -16,16 +16,14 @@ open class LocationProvider @Inject constructor(context: Context) {
 
     init {
         fusedLocationClient.lastLocation.addOnSuccessListener {
-            if (it != null) {
-                location.offer(it)
-            }
+            location.offer(it)
         }
 
     }
 
-    private val location: BehaviorProcessor<Location> = BehaviorProcessor.create<Location>()
+    private val location = BehaviorProcessor.create<Location?>()
 
-    open fun lastKnownLocation(): Observable<Location> {
+    open fun lastKnownLocation(): Observable<Location?> {
         return location.toObservable()
     }
 }

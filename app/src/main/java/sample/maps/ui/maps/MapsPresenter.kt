@@ -38,6 +38,8 @@ open class MapsPresenter @Inject constructor(
     override fun addLocationClicked() {
         getCurrentLocationUseCase.get()
                 .take(1)
+                .filter { it != null }
+                .cast(Location::class.java)
                 .flatMapCompletable { currentLocation -> saveLocationUseCase.save(currentLocation) }
                 .subscribeOn(backgroundScheduler)
                 .subscribe()
@@ -57,7 +59,7 @@ open class MapsPresenter @Inject constructor(
         )
     }
 
-    private fun buildState(location: Location): State {
+    private fun buildState(location: Location?): State {
         return State(location)
     }
 }

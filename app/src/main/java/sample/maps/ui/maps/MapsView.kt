@@ -39,5 +39,5 @@ interface MapsView {
         fun locationListClicked()
     }
 
-    data class State(val location: Location)
+    data class State(val locationList: List<Location>)
 }
