@@ -4,10 +4,12 @@ import io.reactivex.Observable
 import io.reactivex.processors.BehaviorProcessor
 import sample.maps.event.Signal
 import sample.maps.model.Location
+import javax.inject.Singleton
 
 /**
  * In memory implementation of [LocationRepository]
  */
+@Singleton
 class InMemoryLocationRepository : LocationRepository {
 
     private val storedLocations = arrayListOf<Location>()

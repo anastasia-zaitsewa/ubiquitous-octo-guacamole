@@ -4,6 +4,5 @@
     <item
         android:id="@+id/list"
         app:showAsAction="always"
-        android:icon="@android:drawable/ic_input_get"
         android:title="@string/location_list" />
 </menu>
