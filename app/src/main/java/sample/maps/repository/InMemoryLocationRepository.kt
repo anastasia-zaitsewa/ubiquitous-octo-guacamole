@@ -2,7 +2,6 @@ package sample.maps.repository
 
 import io.reactivex.Observable
 import sample.maps.model.Location
-import sample.maps.model.realm.LocationRealm
 
 /**
  * In memory implementation of [LocationRepository]
