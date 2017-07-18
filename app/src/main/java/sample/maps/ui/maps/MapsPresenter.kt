@@ -4,6 +4,7 @@ import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import sample.maps.injection.annotation.BackgroundTaskScheduler
 import sample.maps.injection.annotation.UiScheduler
+import sample.maps.interactor.GetAllLocationsFromRepositoryUseCase
 import sample.maps.interactor.GetCurrentLocationUseCase
 import sample.maps.interactor.SaveLocationToRepositoryUseCase
 import sample.maps.model.Location
@@ -15,6 +16,7 @@ import javax.inject.Inject
  */
 open class MapsPresenter @Inject constructor(
         private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
+        private val getAllLocationsFromRepositoryUseCase: GetAllLocationsFromRepositoryUseCase,
         private val saveLocationUseCase: SaveLocationToRepositoryUseCase,
         @BackgroundTaskScheduler private val backgroundScheduler: Scheduler,
         @UiScheduler private val uiScheduler: Scheduler
@@ -51,15 +53,11 @@ open class MapsPresenter @Inject constructor(
 
     private fun subscribeForState(view: MapsView) {
         compositeSubscription.add(
-                getCurrentLocationUseCase.get()
-                        .map { buildState(it) }
+                getAllLocationsFromRepositoryUseCase.get()
+                        .map { State(it) }
                         .subscribeOn(backgroundScheduler)
                         .observeOn(uiScheduler)
                         .subscribe { view.updateState(it) }
         )
-    }
-
-    private fun buildState(location: Location?): State {
-        return State(location)
     }
 }

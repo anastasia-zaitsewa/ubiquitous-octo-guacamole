@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import io.realm.Realm
 import sample.maps.repository.LocationRepository
-import sample.maps.repository.RealmLocationRepository
+import sample.maps.repository.InMemoryLocationRepository
 import javax.inject.Singleton
 
 /**
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 
     @Provides
     @Singleton
-    fun providesLocationRepository(realm: Realm): LocationRepository {
-        return RealmLocationRepository(realm)
+    fun providesLocationRepository(): LocationRepository {
+        return InMemoryLocationRepository()
     }
 }

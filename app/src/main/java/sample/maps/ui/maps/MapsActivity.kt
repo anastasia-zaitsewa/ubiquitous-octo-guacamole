@@ -64,6 +64,7 @@ class MapsActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        mapsView.onStart()
         mapsPresenter.resume(mapsView)
     }
 
@@ -74,6 +75,7 @@ class MapsActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
+        mapsView.onStop()
         mapsPresenter.pause()
     }
 

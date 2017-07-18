@@ -10,6 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
+import sample.maps.interactor.GetAllLocationsFromRepositoryUseCase
 import sample.maps.interactor.GetCurrentLocationUseCase
 import sample.maps.interactor.SaveLocationToRepositoryUseCase
 import sample.maps.model.Location
@@ -26,6 +27,8 @@ class MapsPresenterTest {
     @Mock
     lateinit var saveLocationToRepositoryUseCase: SaveLocationToRepositoryUseCase
     @Mock
+    lateinit var getAllLocationsUseCase: GetAllLocationsFromRepositoryUseCase
+    @Mock
     lateinit var view: MapsView
 
     lateinit var presenter: MapsPresenter
@@ -35,6 +38,7 @@ class MapsPresenterTest {
     fun setUp() {
         presenter = MapsPresenter(
                 getCurrentLocationUseCase,
+                getAllLocationsUseCase,
                 saveLocationToRepositoryUseCase,
                 Schedulers.trampoline(),
                 Schedulers.trampoline()
@@ -44,6 +48,8 @@ class MapsPresenterTest {
                 .willReturn(just(location))
         given(saveLocationToRepositoryUseCase.save(location))
                 .willReturn(Completable.complete())
+        given(getAllLocationsUseCase.get())
+                .willReturn(just(listOf(location, location)))
     }
 
     @Test
@@ -53,7 +59,7 @@ class MapsPresenterTest {
 
         // Then
         verify(view).updateState(MapsView.State(
-                Location(dummyLatLang, dummyLatLang)
+                listOf(location, location)
         ))
     }
 

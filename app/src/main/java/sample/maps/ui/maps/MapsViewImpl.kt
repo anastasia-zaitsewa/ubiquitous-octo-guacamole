@@ -5,12 +5,8 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.MapsInitializer
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.rxkotlin.Flowables
 import sample.maps.R
@@ -51,7 +47,7 @@ class MapsViewImpl(context: Context, attributeSet: AttributeSet)
 
     private fun updateView(pair: Pair<GoogleMap, MapsView.State>) {
         val map = pair.first
-        val location = pair.second.location ?: return
+//        val location = pair.second.location ?: return
 
 //        map.addMarker(MarkerOptions()
 //                .position(LatLng(location.latitude, location.longitude))
@@ -85,10 +81,22 @@ class MapsViewImpl(context: Context, attributeSet: AttributeSet)
     /**
      * Method to work with [MapView] lifecycle
      */
+    fun onStart() {
+        mapView.onStart()
+    }
+
+    /**
+     * Method to work with [MapView] lifecycle
+     */
+    fun onStop() {
+        mapView.onStop()
+    }
+
+    /**
+     * Method to work with [MapView] lifecycle
+     */
     fun onResume() {
-        if (mapView.isAttachedToWindow) {
-            mapView.onResume()
-        }
+        mapView.onResume()
     }
 
     /**
