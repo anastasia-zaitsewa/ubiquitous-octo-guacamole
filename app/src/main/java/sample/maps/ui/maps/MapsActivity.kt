@@ -47,7 +47,7 @@ class MapsActivity : AppCompatActivity() {
                 .activityModule(ActivityModule(this))
                 .mainComponent(MapsApplication.mainComponent)
                 .build()
-                .inject(this)
+                .injectMapsActivity(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

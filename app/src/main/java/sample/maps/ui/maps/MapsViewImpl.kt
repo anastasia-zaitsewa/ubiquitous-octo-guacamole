@@ -1,7 +1,9 @@
 package sample.maps.ui.maps
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.os.LocaleList
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -12,6 +14,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.rxkotlin.Flowables
 import sample.maps.R
+import sample.maps.ui.list.LocationListActivity
 
 /**
  * Implementation of [MapsView]
@@ -130,7 +133,9 @@ class MapsViewImpl(context: Context, attributeSet: AttributeSet)
     }
 
     override fun navigateLocationList() {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        context.startActivity(
+                Intent(context, LocationListActivity::class.java)
+        )
     }
 
 }

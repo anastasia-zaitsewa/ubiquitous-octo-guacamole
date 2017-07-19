@@ -1,6 +1,7 @@
 package sample.maps.ui.list
 
 import android.content.Context
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import sample.maps.R
+import sample.maps.model.Location
 
 /**
  * Implementation of [LocationListView]
@@ -18,29 +20,66 @@ class LocationListViewImpl(context: Context, attributeSet: AttributeSet)
 
     private val itemsAdapter = LocationsAdapter(context)
 
-    override fun updateState(newState: LocationListView.State) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    init {
+        LayoutInflater
+                .from(context)
+                .inflate(R.layout.location_list_view, this, true)
+
+        (findViewById(R.id.list) as RecyclerView).apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = itemsAdapter
+            isNestedScrollingEnabled = false
+        }
     }
 
-    private inner class  LocationsAdapter(context: Context) : RecyclerView.Adapter<LocationViewHolder> () {
+    override fun updateState(newState: LocationListView.State) {
+        itemsAdapter.setItems(newState.locationList)
+    }
+
+    /**
+     * Adapter for for [RecyclerView] with location items
+     */
+    private inner class LocationsAdapter(context: Context) : RecyclerView.Adapter<LocationViewHolder>() {
+
+        private var items: List<Location> = emptyList()
+
+        val inflater: LayoutInflater = LayoutInflater.from(context)
+
+        init {
+            setHasStableIds(true)
+        }
+
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): LocationViewHolder {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            return LocationViewHolder(inflater.inflate(R.layout.location_list_item, parent, false))
         }
 
         override fun onBindViewHolder(holder: LocationViewHolder?, position: Int) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            if (position in 0 until items.size) {
+                holder?.setViewModel(items[position])
+            }
         }
 
         override fun getItemCount(): Int {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            return items.size
         }
 
-        val inflater: LayoutInflater = LayoutInflater.from(context)
+        override fun getItemId(position: Int): Long {
+            return items[position].hashCode().toLong()
+        }
+
+        fun setItems(items: List<Location>) {
+            this.items = items
+            notifyDataSetChanged()
+        }
 
 
     }
 
     private inner class LocationViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         val label: TextView = itemView?.findViewById(R.id.label) as TextView
+
+        fun setViewModel(model: Location) {
+            label.text = model.toString()
+        }
     }
 }
