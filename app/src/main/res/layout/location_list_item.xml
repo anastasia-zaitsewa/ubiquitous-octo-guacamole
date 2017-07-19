@@ -8,12 +8,12 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:backgroundTint="@color/colorPrimaryDark"/>
+        android:background="@color/colorPrimaryDark"/>
 
     <TextView
         android:id="@+id/label"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="64dp"
         android:gravity="center_vertical"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"

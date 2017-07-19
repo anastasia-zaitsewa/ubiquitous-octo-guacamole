@@ -2,6 +2,7 @@ package sample.maps.ui.list
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import sample.maps.MapsApplication
 import sample.maps.R
 import sample.maps.injection.component.DaggerActivityComponent
@@ -20,8 +21,13 @@ class LocationListActivity : AppCompatActivity() {
         initDagger()
 
         setContentView(R.layout.location_list_activity)
-        
+
         initComponents()
+        initActionBar()
+    }
+
+    private fun initActionBar() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun initComponents() {
@@ -45,4 +51,12 @@ class LocationListActivity : AppCompatActivity() {
                 .build()
                 .injectLocationListActivity(this)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }
