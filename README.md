@@ -5,4 +5,5 @@ Current content: MVP example. Has In-Memory Repository on its lower level and a 
 
 Things to try: 
 Repository - Room with RXJava (lib is currently in beta).
+
 Map View - Add Live Location
