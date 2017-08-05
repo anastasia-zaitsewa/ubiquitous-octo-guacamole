@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import kotlinx.android.synthetic.main.location_list_view.view.*
 import sample.maps.R
 import sample.maps.model.Location
 
@@ -25,7 +26,7 @@ class LocationListViewImpl(context: Context, attributeSet: AttributeSet)
                 .from(context)
                 .inflate(R.layout.location_list_view, this, true)
 
-        (findViewById(R.id.list) as RecyclerView).apply {
+        locationList.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = itemsAdapter
             isNestedScrollingEnabled = false
@@ -75,8 +76,9 @@ class LocationListViewImpl(context: Context, attributeSet: AttributeSet)
 
     }
 
-    private inner class LocationViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
-        val label: TextView = itemView?.findViewById(R.id.label) as TextView
+    private inner class LocationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        val label = itemView.findViewById(R.id.locationLabel) as TextView
 
         fun setViewModel(model: Location) {
             label.text = model.toString()

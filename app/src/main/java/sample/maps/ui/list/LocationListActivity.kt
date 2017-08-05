@@ -3,6 +3,7 @@ package sample.maps.ui.list
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import kotlinx.android.synthetic.main.location_list_activity.*
 import sample.maps.MapsApplication
 import sample.maps.R
 import sample.maps.injection.component.DaggerActivityComponent
@@ -12,8 +13,6 @@ import javax.inject.Inject
 class LocationListActivity : AppCompatActivity() {
     @Inject
     lateinit var locationListPresenter: LocationListPresenter
-    private lateinit var locationListView: LocationListViewImpl
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,16 +21,11 @@ class LocationListActivity : AppCompatActivity() {
 
         setContentView(R.layout.location_list_activity)
 
-        initComponents()
         initActionBar()
     }
 
     private fun initActionBar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
-    private fun initComponents() {
-        locationListView = findViewById(R.id.list_view) as LocationListViewImpl
     }
 
     override fun onStart() {
