@@ -12,18 +12,18 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.rxkotlin.Flowables
+import kotlinx.android.synthetic.main.maps_view.view.*
 import sample.maps.R
 import sample.maps.ui.list.LocationListActivity
 
 /**
  * Implementation of [MapsView]
  */
-class MapsViewImpl(context: Context, attributeSet: AttributeSet)
-    : MapsView, FrameLayout(context, attributeSet) {
+class MapsViewImpl @JvmOverloads constructor(
+        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : MapsView, FrameLayout(context, attrs, defStyleAttr) {
 
     private var listener: MapsView.Listener? = null
-
-    private var mapView: MapView
 
     private val googleMap = BehaviorProcessor.create<GoogleMap>()
     private val state = BehaviorProcessor.create<MapsView.State>()
@@ -33,11 +33,9 @@ class MapsViewImpl(context: Context, attributeSet: AttributeSet)
                 .from(context)
                 .inflate(R.layout.maps_view, this, true)
 
-        mapView = (findViewById(R.id.map) as MapView)
-
         subscribeForStateUpdate()
 
-        findViewById(R.id.addButton).setOnClickListener { listener?.addLocationClicked() }
+        addButton.setOnClickListener { listener?.addLocationClicked() }
     }
 
 
@@ -64,8 +62,8 @@ class MapsViewImpl(context: Context, attributeSet: AttributeSet)
      * Method to work with [MapView] lifecycle
      */
     fun onCreate(bundle: Bundle?) {
-        mapView.onCreate(bundle)
-        mapView.getMapAsync {
+        googleMapView.onCreate(bundle)
+        googleMapView.getMapAsync {
             if (it != null) {
                 with(it) {
                     uiSettings.isMyLocationButtonEnabled = true
@@ -81,46 +79,46 @@ class MapsViewImpl(context: Context, attributeSet: AttributeSet)
      * Method to work with [MapView] lifecycle
      */
     fun onStart() {
-        mapView.onStart()
+        googleMapView.onStart()
     }
 
     /**
      * Method to work with [MapView] lifecycle
      */
     fun onStop() {
-        mapView.onStop()
+        googleMapView.onStop()
     }
 
     /**
      * Method to work with [MapView] lifecycle
      */
     fun onResume() {
-        mapView.onResume()
+        googleMapView.onResume()
     }
 
     /**
      * Method to work with [MapView] lifecycle
      */
     fun onPause() {
-        mapView.onPause()
+        googleMapView.onPause()
     }
 
     /**
      * Method to work with [MapView] lifecycle
      */
     fun onDestroy() {
-        mapView.onDestroy()
+        googleMapView.onDestroy()
     }
 
     /**
      * Method to work with [MapView] lifecycle
      */
     fun onLowMemory() {
-        mapView.onLowMemory()
+        googleMapView.onLowMemory()
     }
 
     fun onSaveInstanceState(bundle: Bundle?) {
-        mapView.onSaveInstanceState(bundle)
+        googleMapView.onSaveInstanceState(bundle)
     }
 
     override fun updateState(newState: MapsView.State) {

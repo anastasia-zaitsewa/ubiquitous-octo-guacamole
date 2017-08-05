@@ -3,7 +3,7 @@
     android:layout_height="match_parent">
 
     <sample.maps.ui.maps.MapsViewImpl
-        android:id="@+id/mapView"
+        android:id="@+id/mapViewImpl"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
 </FrameLayout>

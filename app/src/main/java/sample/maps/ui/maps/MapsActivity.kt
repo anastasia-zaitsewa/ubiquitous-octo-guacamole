@@ -36,9 +36,8 @@ class MapsActivity : AppCompatActivity() {
     }
 
     private fun initComponents(savedInstanceState: Bundle?) {
-        mapView.onCreate(savedInstanceState)
-        mapView.setListener(mapsPresenter)
-
+        mapViewImpl.onCreate(savedInstanceState)
+        mapViewImpl.setListener(mapsPresenter)
     }
 
     private fun initDagger() {
@@ -63,38 +62,38 @@ class MapsActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        mapView.onStart()
-        mapsPresenter.resume(mapView)
+        mapViewImpl.onStart()
+        mapsPresenter.resume(mapViewImpl)
     }
 
     override fun onResume() {
         super.onResume()
-        mapView.onResume()
+        mapViewImpl.onResume()
     }
 
     override fun onStop() {
         super.onStop()
-        mapView.onStop()
+        mapViewImpl.onStop()
         mapsPresenter.pause()
     }
 
     override fun onPause() {
         super.onPause()
-        mapView.onPause()
+        mapViewImpl.onPause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mapView.onDestroy()
+        mapViewImpl.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        mapView.onLowMemory()
+        mapViewImpl.onLowMemory()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        mapView.onSaveInstanceState(outState)
+        mapViewImpl.onSaveInstanceState(outState)
     }
 }
