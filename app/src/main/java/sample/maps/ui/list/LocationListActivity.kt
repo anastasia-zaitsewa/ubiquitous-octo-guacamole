@@ -31,7 +31,7 @@ class LocationListActivity : AppCompatActivity() {
     }
 
     private fun initComponents() {
-        locationListView = findViewById(R.id.list_view) as LocationListViewImpl
+        locationListView = findViewById(R.id.locationListView) as LocationListViewImpl
     }
 
     override fun onStart() {

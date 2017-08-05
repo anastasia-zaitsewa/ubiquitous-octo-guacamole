@@ -3,7 +3,6 @@ package sample.maps.ui.maps
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.LocaleList
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -38,7 +37,7 @@ class MapsViewImpl(context: Context, attributeSet: AttributeSet)
 
         subscribeForStateUpdate()
 
-        findViewById(R.id.add).setOnClickListener { listener?.addLocationClicked() }
+        findViewById(R.id.addButton).setOnClickListener { listener?.addLocationClicked() }
     }
 
 

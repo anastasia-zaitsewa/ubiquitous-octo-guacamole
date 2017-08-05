@@ -25,7 +25,7 @@ class LocationListViewImpl(context: Context, attributeSet: AttributeSet)
                 .from(context)
                 .inflate(R.layout.location_list_view, this, true)
 
-        (findViewById(R.id.list) as RecyclerView).apply {
+        (findViewById(R.id.locationList) as RecyclerView).apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = itemsAdapter
             isNestedScrollingEnabled = false
@@ -76,7 +76,7 @@ class LocationListViewImpl(context: Context, attributeSet: AttributeSet)
     }
 
     private inner class LocationViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
-        val label: TextView = itemView?.findViewById(R.id.label) as TextView
+        val label: TextView = itemView?.findViewById(R.id.locationLabel) as TextView
 
         fun setViewModel(model: Location) {
             label.text = model.toString()
