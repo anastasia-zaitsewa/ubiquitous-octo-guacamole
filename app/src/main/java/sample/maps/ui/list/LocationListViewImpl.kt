@@ -1,5 +1,6 @@
 package sample.maps.ui.list
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -80,8 +81,9 @@ class LocationListViewImpl(context: Context, attributeSet: AttributeSet)
 
         val label = itemView.findViewById(R.id.locationLabel) as TextView
 
+        @SuppressLint("SetTextI18n")
         fun setViewModel(model: Location) {
-            label.text = model.toString()
+            label.text = model.latitude.toString() + ", " + model.longitude.toString()
         }
     }
 }
