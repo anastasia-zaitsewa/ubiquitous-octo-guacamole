@@ -47,21 +47,17 @@ class GetCurrentLocationUseCaseTest {
     @Test
     fun get_permissionGranted() {
         // Given
-        given(location.longitude)
-                .willReturn(dummyLatLang)
-        given(location.latitude)
-                .willReturn(dummyLatLang)
         given(rxPermissions.isGranted(Manifest.permission.ACCESS_FINE_LOCATION))
                 .willReturn(true)
         given(locationProvider.lastKnownLocation())
-                .willReturn(just(location))
+                .willReturn(just(LocationProvider.Result.Success(location)))
 
         // When
         val observer = useCase.get().test()
 
         // Then
         observer.assertValue(
-                Success(sample.maps.model.Location(10.0, 10.0))
+                Success(location)
         )
         observer.assertComplete()
     }

@@ -11,7 +11,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.location_list_view.view.*
 import sample.maps.R
-import sample.maps.model.Location
+import android.location.Location
 
 /**
  * Implementation of [LocationListView]

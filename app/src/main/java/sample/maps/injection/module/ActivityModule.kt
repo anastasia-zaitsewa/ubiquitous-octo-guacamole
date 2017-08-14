@@ -4,6 +4,10 @@ import android.app.Activity
 import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.Module
 import dagger.Provides
+import io.reactivex.Scheduler
+import sample.maps.injection.annotation.UiScheduler
+import sample.maps.persistence.FusedLocationProvider
+import sample.maps.persistence.LocationProvider
 
 /**
  * Provides activity specific dependencies (or activity itself)
@@ -17,5 +21,10 @@ import dagger.Provides
     @Provides
     fun providesRxPermissions(): RxPermissions {
         return RxPermissions(activity)
+    }
+
+    @Provides
+    fun providesLocationProvider(@UiScheduler uiScheduler: Scheduler): LocationProvider {
+        return FusedLocationProvider(activity, uiScheduler)
     }
 }

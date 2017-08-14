@@ -7,7 +7,6 @@ import sample.maps.injection.annotation.UiScheduler
 import sample.maps.interactor.GetAllLocationsFromRepositoryUseCase
 import sample.maps.interactor.GetCurrentLocationUseCase
 import sample.maps.interactor.SaveLocationToRepositoryUseCase
-import sample.maps.model.Location
 import sample.maps.ui.maps.MapsView.State
 import javax.inject.Inject
 

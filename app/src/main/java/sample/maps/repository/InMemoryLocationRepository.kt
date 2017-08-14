@@ -1,9 +1,9 @@
 package sample.maps.repository
 
+import android.location.Location
 import io.reactivex.Observable
 import io.reactivex.processors.BehaviorProcessor
 import sample.maps.event.Signal
-import sample.maps.model.Location
 import javax.inject.Singleton
 
 /**
@@ -12,19 +12,28 @@ import javax.inject.Singleton
 @Singleton
 class InMemoryLocationRepository : LocationRepository {
 
-    private val storedLocations = arrayListOf<Location>(
-            Location(53.5434774, 9.9745385),
-            Location(53.548148, 9.975436),
-            Location(53.5547652, 9.970832),
-            Location(53.5536913, 9.9670254),
-            Location(53.550823, 9.981951),
-            Location(53.5651967, 9.9701628),
-            Location(53.5651967, 9.9701628),
-            Location(53.5717677, 9.988324),
-            Location(53.5892213, 9.9829051),
-            Location(53.6110451, 9.9955775),
-            Location(53.6322849, 9.9693622)
+    private val storedLocations = arrayListOf(
+            createLocation(53.5434774, 9.9745385),
+            createLocation(53.548148, 9.975436),
+            createLocation(53.5547652, 9.970832),
+            createLocation(53.5536913, 9.9670254),
+            createLocation(53.550823, 9.981951),
+            createLocation(53.5651967, 9.9701628),
+            createLocation(53.5651967, 9.9701628),
+            createLocation(53.5651967, 9.9701628),
+            createLocation(53.5717677, 9.988324),
+            createLocation(53.5892213, 9.9829051),
+            createLocation(53.6110451, 9.9955775),
+            createLocation(53.6322849, 9.9693622)
     )
+
+    private fun createLocation(latitude: Double, longitude: Double): Location {
+        val location = Location("")
+        location.latitude = latitude
+        location.longitude = longitude
+        return location
+    }
+
     private val updates = BehaviorProcessor.createDefault(Signal)
 
     override fun getAll(): Observable<List<Location>> {
@@ -39,6 +48,7 @@ class InMemoryLocationRepository : LocationRepository {
     }
 
     private fun isLocationNew(location: Location): Boolean {
-        return storedLocations.find { location == it } == null
+        return storedLocations.find { location.longitude == it.longitude
+                && location.latitude == it.latitude } == null
     }
 }

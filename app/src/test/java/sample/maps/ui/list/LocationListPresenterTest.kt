@@ -1,5 +1,6 @@
 package sample.maps.ui.list
 
+import android.location.Location
 import com.nhaarman.mockito_kotlin.given
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Observable
@@ -10,16 +11,14 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import sample.maps.interactor.GetAllLocationsFromRepositoryUseCase
-import sample.maps.model.Location
 
 @RunWith(MockitoJUnitRunner::class)
 class LocationListPresenterTest {
 
-    val expected = listOf(
-            Location(1.0, 1.0),
-            Location(2.0, 2.0),
-            Location(3.0, 3.0)
-    )
+    private val dummyLatLang = 10.0
+
+    @Mock
+    lateinit var location: Location
 
     @Mock
     lateinit  var getAllLocationsUseCase: GetAllLocationsFromRepositoryUseCase
@@ -35,13 +34,19 @@ class LocationListPresenterTest {
                 Schedulers.trampoline(),
                 Schedulers.trampoline()
         )
-
-        given(getAllLocationsUseCase.get())
-                .willReturn(Observable.just(expected))
     }
 
     @Test
     fun loadLocationList(){
+        // Given
+        val expected = listOf(
+                location,
+                location,
+                location
+        )
+        given(getAllLocationsUseCase.get())
+                .willReturn(Observable.just(expected))
+
         // When
         presenter.resume(view)
 

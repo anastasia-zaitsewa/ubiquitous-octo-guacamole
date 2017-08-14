@@ -1,6 +1,6 @@
 package sample.maps.ui.maps
 
-import sample.maps.model.Location
+import android.location.Location
 
 /**
  * Shows maps with current location

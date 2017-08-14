@@ -1,7 +1,7 @@
 package sample.maps.repository
 
+import android.location.Location
 import io.reactivex.Observable
-import sample.maps.model.Location
 
 /**
  * Provides read and write access to user locations

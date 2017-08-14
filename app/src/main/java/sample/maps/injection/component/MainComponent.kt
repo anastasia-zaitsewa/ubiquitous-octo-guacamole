@@ -12,11 +12,11 @@ import sample.maps.repository.LocationRepository
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(AndroidModule::class, MainModule::class)) interface MainComponent {
+@Component(modules = arrayOf(
+        AndroidModule::class,
+        MainModule::class)) interface MainComponent {
 
     fun application(): Application
-
-    fun context(): Context
 
     fun locationRepository(): LocationRepository
 
