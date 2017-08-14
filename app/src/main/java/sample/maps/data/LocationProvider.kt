@@ -1,4 +1,4 @@
-package sample.maps.persistence
+package sample.maps.data
 
 import android.location.Location
 import io.reactivex.Observable

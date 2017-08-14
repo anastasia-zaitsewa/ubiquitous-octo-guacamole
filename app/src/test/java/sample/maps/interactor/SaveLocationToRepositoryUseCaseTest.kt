@@ -7,7 +7,7 @@ import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
-import sample.maps.repository.LocationRepository
+import sample.maps.data.repository.LocationRepository
 
 @RunWith(MockitoJUnitRunner::class)
 class SaveLocationToRepositoryUseCaseTest {

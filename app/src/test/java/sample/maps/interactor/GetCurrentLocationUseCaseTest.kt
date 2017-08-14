@@ -12,7 +12,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import sample.maps.interactor.GetCurrentLocationUseCase.Result.*
-import sample.maps.persistence.LocationProvider
+import sample.maps.data.LocationProvider
 
 
 @RunWith(MockitoJUnitRunner::class)

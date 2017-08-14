@@ -1,4 +1,4 @@
-package sample.maps.repository
+package sample.maps.data.repository
 
 import android.location.Location
 import io.reactivex.Observable

@@ -6,7 +6,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
 import io.reactivex.Observable.just
 import sample.maps.interactor.GetCurrentLocationUseCase.Result.*
-import sample.maps.persistence.LocationProvider
+import sample.maps.data.LocationProvider
 import javax.inject.Inject
 
 /**

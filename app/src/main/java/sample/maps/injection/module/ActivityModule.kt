@@ -6,8 +6,8 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.Scheduler
 import sample.maps.injection.annotation.UiScheduler
-import sample.maps.persistence.FusedLocationProvider
-import sample.maps.persistence.LocationProvider
+import sample.maps.data.FusedLocationProvider
+import sample.maps.data.LocationProvider
 
 /**
  * Provides activity specific dependencies (or activity itself)

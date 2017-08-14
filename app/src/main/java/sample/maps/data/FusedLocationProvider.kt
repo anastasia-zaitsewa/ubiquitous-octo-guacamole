@@ -1,4 +1,4 @@
-package sample.maps.persistence
+package sample.maps.data
 
 import android.app.Activity
 import com.google.android.gms.location.LocationServices
