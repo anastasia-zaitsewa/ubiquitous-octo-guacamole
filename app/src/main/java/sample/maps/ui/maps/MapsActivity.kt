@@ -9,7 +9,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.maps_activity.*
 import sample.maps.MapsApplication
 import sample.maps.R
-import sample.maps.injection.component.DaggerMapsActivityComponent
 import sample.maps.injection.module.MapsActivityModule
 import javax.inject.Inject
 
@@ -41,9 +40,9 @@ class MapsActivity : AppCompatActivity() {
     }
 
     private fun initDagger() {
-        DaggerMapsActivityComponent.builder()
-                .activityModule(MapsActivityModule(this))
-                .build()
+        MapsApplication
+                .mainComponent
+                .plus(MapsActivityModule(this))
                 .injectMapsActivity(this)
     }
 

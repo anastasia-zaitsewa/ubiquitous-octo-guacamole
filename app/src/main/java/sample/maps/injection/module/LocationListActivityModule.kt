@@ -8,6 +8,7 @@ import io.reactivex.Scheduler
 import sample.maps.injection.annotation.UiScheduler
 import sample.maps.data.FusedLocationProvider
 import sample.maps.data.LocationProvider
+import sample.maps.injection.annotation.ActivityScope
 
 /**
  * Provides activity specific dependencies (or activity itself)

@@ -6,6 +6,7 @@ import dagger.Provides
 import io.reactivex.Scheduler
 import sample.maps.data.FusedLocationProvider
 import sample.maps.data.LocationProvider
+import sample.maps.injection.annotation.ActivityScope
 import sample.maps.injection.annotation.UiScheduler
 import sample.maps.ui.maps.MapsActivity
 
@@ -19,11 +20,13 @@ import sample.maps.ui.maps.MapsActivity
     }
 
     @Provides
+    @ActivityScope
     fun providesRxPermissions(): RxPermissions {
         return RxPermissions(activity)
     }
 
     @Provides
+    @ActivityScope
     fun providesLocationProvider(@UiScheduler uiScheduler: Scheduler): LocationProvider {
         return FusedLocationProvider(activity, uiScheduler)
     }
