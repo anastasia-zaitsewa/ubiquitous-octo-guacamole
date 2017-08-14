@@ -8,6 +8,8 @@ import sample.maps.injection.annotation.UiScheduler
 import sample.maps.injection.module.AndroidModule
 import sample.maps.injection.module.MainModule
 import sample.maps.data.repository.LocationRepository
+import sample.maps.injection.module.LocationListActivityModule
+import sample.maps.injection.module.MapsActivityModule
 import javax.inject.Singleton
 
 @Singleton
@@ -24,4 +26,8 @@ import javax.inject.Singleton
 
     @UiScheduler
     fun uiScheduler(): Scheduler
+
+    fun plus(mapsActivityModule: MapsActivityModule)
+
+    fun plus(listActivityModule: LocationListActivityModule)
 }
