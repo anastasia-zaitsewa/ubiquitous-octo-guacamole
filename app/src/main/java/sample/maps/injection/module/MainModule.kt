@@ -2,8 +2,8 @@ package sample.maps.injection.module
 
 import dagger.Module
 import dagger.Provides
-import sample.maps.repository.InMemoryLocationRepository
-import sample.maps.repository.LocationRepository
+import sample.maps.data.repository.InMemoryLocationRepository
+import sample.maps.data.repository.LocationRepository
 import javax.inject.Singleton
 
 /**

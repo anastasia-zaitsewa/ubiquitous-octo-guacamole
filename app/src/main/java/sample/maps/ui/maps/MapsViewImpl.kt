@@ -50,9 +50,8 @@ class MapsViewImpl @JvmOverloads constructor(
     private fun updateView(pair: Pair<GoogleMap, MapsView.State>) {
         val map = pair.first
         pair.second.locationList
-                .map { (latitude, longitude) ->
-                    map.addMarker(MarkerOptions()
-                            .position(LatLng(latitude, longitude))
+                .map { map.addMarker(MarkerOptions()
+                            .position(LatLng(it.latitude, it.longitude))
                             .title("Saved Location"))
                 }
 

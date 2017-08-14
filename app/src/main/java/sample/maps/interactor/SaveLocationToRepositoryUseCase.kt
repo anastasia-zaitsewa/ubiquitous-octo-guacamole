@@ -1,8 +1,8 @@
 package sample.maps.interactor
 
+import android.location.Location
 import io.reactivex.Completable
-import sample.maps.model.Location
-import sample.maps.repository.LocationRepository
+import sample.maps.data.repository.LocationRepository
 import javax.inject.Inject
 
 /**

@@ -1,6 +1,6 @@
 package sample.maps.ui.list
 
-import sample.maps.model.Location
+import android.location.Location
 
 /**
  * Shows list with all saved locations

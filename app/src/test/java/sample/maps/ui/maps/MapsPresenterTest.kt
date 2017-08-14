@@ -1,5 +1,6 @@
 package sample.maps.ui.maps
 
+import android.location.Location
 import com.nhaarman.mockito_kotlin.given
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Completable
@@ -14,13 +15,12 @@ import sample.maps.interactor.GetAllLocationsFromRepositoryUseCase
 import sample.maps.interactor.GetCurrentLocationUseCase
 import sample.maps.interactor.GetCurrentLocationUseCase.Result.*
 import sample.maps.interactor.SaveLocationToRepositoryUseCase
-import sample.maps.model.Location
 
 @RunWith(MockitoJUnitRunner::class)
 class MapsPresenterTest {
 
-    val dummyLatLang = 10.0
-    val location = Location(dummyLatLang, dummyLatLang)
+    @Mock
+    lateinit var location: Location
 
 
     @Mock

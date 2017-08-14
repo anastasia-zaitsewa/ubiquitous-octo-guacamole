@@ -6,19 +6,19 @@ import com.nhaarman.mockito_kotlin.given
 import com.nhaarman.mockito_kotlin.verifyZeroInteractions
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable.just
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
-import sample.maps.interactor.GetCurrentLocationUseCase.Result.*
-import sample.maps.persistence.LocationProvider
+import sample.maps.data.LocationProvider
+import sample.maps.interactor.GetCurrentLocationUseCase.Result.Failure
+import sample.maps.interactor.GetCurrentLocationUseCase.Result.Success
 
 
 @RunWith(MockitoJUnitRunner::class)
 class GetCurrentLocationUseCaseTest {
-
-    private val dummyLatLang = 10.0
 
     @Mock
     lateinit var location: Location
@@ -28,6 +28,22 @@ class GetCurrentLocationUseCaseTest {
     lateinit var rxPermissions: RxPermissions
     @InjectMocks
     lateinit var useCase: GetCurrentLocationUseCase
+
+    @Before
+    fun setUp(){
+        given(rxPermissions.isGranted(Manifest.permission.ACCESS_FINE_LOCATION))
+                .willReturn(true)
+        given(locationProvider.lastKnownLocation())
+                .willReturn(just(LocationProvider.Result.Success(location)))
+    }
+
+    @Test
+    fun get_permissionGranted() {
+        // When
+        useCase.get().test()
+                //Then
+                .assertResult(Success(location))
+    }
 
     @Test
     fun get_permissionNotGranted() {
@@ -45,24 +61,14 @@ class GetCurrentLocationUseCaseTest {
     }
 
     @Test
-    fun get_permissionGranted() {
+    fun get_noLocationAvailable() {
         // Given
-        given(location.longitude)
-                .willReturn(dummyLatLang)
-        given(location.latitude)
-                .willReturn(dummyLatLang)
-        given(rxPermissions.isGranted(Manifest.permission.ACCESS_FINE_LOCATION))
-                .willReturn(true)
         given(locationProvider.lastKnownLocation())
-                .willReturn(just(location))
+                .willReturn(just(LocationProvider.Result.NoLocation))
 
         // When
-        val observer = useCase.get().test()
-
-        // Then
-        observer.assertValue(
-                Success(sample.maps.model.Location(10.0, 10.0))
-        )
-        observer.assertComplete()
+        useCase.get().test()
+                //Then
+                .assertResult(Failure)
     }
 }

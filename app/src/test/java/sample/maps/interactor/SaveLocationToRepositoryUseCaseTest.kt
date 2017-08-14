@@ -1,17 +1,19 @@
 package sample.maps.interactor
 
-import com.google.android.gms.maps.model.LatLng
+import android.location.Location
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
-import sample.maps.model.Location
-import sample.maps.repository.LocationRepository
+import sample.maps.data.repository.LocationRepository
 
 @RunWith(MockitoJUnitRunner::class)
 class SaveLocationToRepositoryUseCaseTest {
+
+    @Mock
+    lateinit var location: Location
 
     @Mock
     lateinit var locationRepository: LocationRepository
@@ -21,14 +23,11 @@ class SaveLocationToRepositoryUseCaseTest {
 
     @Test
     fun save() {
-        // Given
-        val expected = Location(10.0, 10.0)
-
         // When
-        val observer = useCase.save(expected).test()
+        val observer = useCase.save(location).test()
 
         // Then
-        verify(locationRepository).add(expected)
+        verify(locationRepository).add(location)
         observer.assertNoErrors()
         observer.assertComplete()
     }

@@ -22,13 +22,7 @@ import javax.inject.Singleton
     fun providesApplication(): Application {
         return application
     }
-
-    @Provides
-    @Singleton
-    fun providesContext(): Context {
-        return application
-    }
-
+    
     @Provides
     @Singleton
     fun providesResources(): Resources {

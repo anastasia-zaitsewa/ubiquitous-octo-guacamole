@@ -6,8 +6,7 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.location_list_activity.*
 import sample.maps.MapsApplication
 import sample.maps.R
-import sample.maps.injection.component.DaggerActivityComponent
-import sample.maps.injection.module.ActivityModule
+import sample.maps.injection.module.LocationListActivityModule
 import javax.inject.Inject
 
 class LocationListActivity : AppCompatActivity() {
@@ -39,10 +38,9 @@ class LocationListActivity : AppCompatActivity() {
     }
 
     private fun initDagger() {
-        DaggerActivityComponent.builder()
-                .activityModule(ActivityModule(this))
-                .mainComponent(MapsApplication.mainComponent)
-                .build()
+        MapsApplication
+                .mainComponent
+                .plus(LocationListActivityModule(this))
                 .injectLocationListActivity(this)
     }
 

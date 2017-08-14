@@ -9,8 +9,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.maps_activity.*
 import sample.maps.MapsApplication
 import sample.maps.R
-import sample.maps.injection.component.DaggerActivityComponent
-import sample.maps.injection.module.ActivityModule
+import sample.maps.injection.module.MapsActivityModule
 import javax.inject.Inject
 
 class MapsActivity : AppCompatActivity() {
@@ -41,10 +40,9 @@ class MapsActivity : AppCompatActivity() {
     }
 
     private fun initDagger() {
-        DaggerActivityComponent.builder()
-                .activityModule(ActivityModule(this))
-                .mainComponent(MapsApplication.mainComponent)
-                .build()
+        MapsApplication
+                .mainComponent
+                .plus(MapsActivityModule(this))
                 .injectMapsActivity(this)
     }
 
