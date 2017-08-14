@@ -19,8 +19,6 @@ import sample.maps.interactor.SaveLocationToRepositoryUseCase
 @RunWith(MockitoJUnitRunner::class)
 class MapsPresenterTest {
 
-    private val dummyLatLang = 10.0
-
     @Mock
     lateinit var location: Location
 

@@ -18,8 +18,6 @@ import sample.maps.persistence.LocationProvider
 @RunWith(MockitoJUnitRunner::class)
 class GetCurrentLocationUseCaseTest {
 
-    private val dummyLatLang = 10.0
-
     @Mock
     lateinit var location: Location
     @Mock

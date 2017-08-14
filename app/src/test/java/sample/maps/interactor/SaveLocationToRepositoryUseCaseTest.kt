@@ -1,7 +1,6 @@
 package sample.maps.interactor
 
 import android.location.Location
-import com.nhaarman.mockito_kotlin.given
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -12,8 +11,6 @@ import sample.maps.repository.LocationRepository
 
 @RunWith(MockitoJUnitRunner::class)
 class SaveLocationToRepositoryUseCaseTest {
-
-    private val dummyLatLang = 10.0
 
     @Mock
     lateinit var location: Location

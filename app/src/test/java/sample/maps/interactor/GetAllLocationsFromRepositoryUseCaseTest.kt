@@ -13,8 +13,6 @@ import sample.maps.repository.LocationRepository
 @RunWith(MockitoJUnitRunner::class)
 class GetAllLocationsFromRepositoryUseCaseTest {
 
-    private val dummyLatLang = 10.0
-
     @Mock
     lateinit var location: Location
 

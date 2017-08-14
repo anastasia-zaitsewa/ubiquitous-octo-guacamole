@@ -3,7 +3,6 @@ package sample.maps.repository
 import android.location.Location
 import io.reactivex.Observable
 import io.reactivex.processors.BehaviorProcessor
-import sample.maps.event.Signal
 import javax.inject.Singleton
 
 /**
@@ -34,7 +33,7 @@ class InMemoryLocationRepository : LocationRepository {
         return location
     }
 
-    private val updates = BehaviorProcessor.createDefault(Signal)
+    private val updates = BehaviorProcessor.createDefault(Unit)
 
     override fun getAll(): Observable<List<Location>> {
         return updates.toObservable().map { _ -> storedLocations }
@@ -43,12 +42,14 @@ class InMemoryLocationRepository : LocationRepository {
     override fun add(location: Location) {
         if (isLocationNew(location)) {
             storedLocations.add(location)
-            updates.offer(Signal)
+            updates.offer(Unit)
         }
     }
 
     private fun isLocationNew(location: Location): Boolean {
-        return storedLocations.find { location.longitude == it.longitude
-                && location.latitude == it.latitude } == null
+        return storedLocations.find {
+            location.longitude == it.longitude
+                    && location.latitude == it.latitude
+        } == null
     }
 }

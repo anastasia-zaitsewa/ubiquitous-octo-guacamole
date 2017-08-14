@@ -15,8 +15,6 @@ import sample.maps.interactor.GetAllLocationsFromRepositoryUseCase
 @RunWith(MockitoJUnitRunner::class)
 class LocationListPresenterTest {
 
-    private val dummyLatLang = 10.0
-
     @Mock
     lateinit var location: Location
 
